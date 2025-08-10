@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { patientsAPI } from '../services/api';
 
@@ -11,11 +11,7 @@ const EditRecord = ({ user }) => {
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState('');
 
-  useEffect(() => {
-    loadPatient();
-  }, [patientId, loadPatient]);
-
-  const loadPatient = async () => {
+  const loadPatient = useCallback(async () => {
     try {
       const patientData = await patientsAPI.getById(parseInt(patientId));
       setPatient(patientData);
@@ -28,6 +24,17 @@ const EditRecord = ({ user }) => {
         city: patientData.city || '',
         emergency_contact_name: patientData.emergency_contact_name || '',
         emergency_contact_phone: patientData.emergency_contact_phone || ''
+      });
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to load patient:', error);
+      setLoading(false);
+    }
+  }, [patientId]);
+
+  useEffect(() => {
+    loadPatient();
+  }, [loadPatient]);
       });
     } catch (error) {
       console.error('Failed to load patient:', error);

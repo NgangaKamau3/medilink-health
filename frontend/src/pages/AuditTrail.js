@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { auditAPI } from '../services/api';
@@ -16,11 +16,7 @@ const AuditTrail = ({ user }) => {
     end_date: ''
   });
 
-  useEffect(() => {
-    loadAuditLogs();
-  }, [loadAuditLogs]);
-
-  const loadAuditLogs = async () => {
+  const loadAuditLogs = useCallback(async () => {
     setLoading(true);
     try {
       const logs = await auditAPI.getLogs(filters);
@@ -31,7 +27,11 @@ const AuditTrail = ({ user }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [filters]);
+
+  useEffect(() => {
+    loadAuditLogs();
+  }, [loadAuditLogs]);
 
   const handleFilterChange = (e) => {
     setFilters({

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { patientsAPI } from '../services/api';
@@ -14,11 +14,7 @@ const PatientDashboard = ({ user }) => {
   const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [showQR, setShowQR] = useState(false);
 
-  useEffect(() => {
-    loadPatientData();
-  }, [patientId, loadPatientData]);
-
-  const loadPatientData = async () => {
+  const loadPatientData = useCallback(async () => {
     try {
       setError(null);
       const [patientData, encountersData] = await Promise.all([
@@ -28,6 +24,17 @@ const PatientDashboard = ({ user }) => {
       
       setPatient(patientData);
       setEncounters(encountersData);
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to load patient data:', error);
+      setError(error.message);
+      setLoading(false);
+    }
+  }, [patientId]);
+
+  useEffect(() => {
+    loadPatientData();
+  }, [loadPatientData]);
       
       // Generate QR code
       const qrData = JSON.stringify({
