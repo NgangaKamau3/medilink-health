@@ -14,6 +14,20 @@ const PatientDashboard = () => {
   const [qrCodeUrl, setQrCodeUrl] = useState('');
   const [showQR, setShowQR] = useState(false);
 
+  const generateQRCode = useCallback(async (patientData) => {
+    try {
+      const qrData = JSON.stringify({
+        patient_id: patientData.patient_id,
+        name: `${patientData.first_name} ${patientData.last_name}`,
+        dob: patientData.date_of_birth
+      });
+      const qrUrl = await QRCode.toDataURL(qrData);
+      setQrCodeUrl(qrUrl);
+    } catch (error) {
+      console.error('Failed to generate QR code:', error);
+    }
+  }, []);
+
   const loadPatientData = useCallback(async () => {
     try {
       setError(null);
@@ -24,30 +38,18 @@ const PatientDashboard = () => {
       
       setPatient(patientData);
       setEncounters(encountersData);
+      await generateQRCode(patientData);
       setLoading(false);
     } catch (error) {
       console.error('Failed to load patient data:', error);
       setError(error.message);
       setLoading(false);
     }
-  }, [patientId]);
+  }, [patientId, generateQRCode]);
 
   useEffect(() => {
     loadPatientData();
   }, [loadPatientData]);
-      
-      // Generate QR code
-      const qrData = JSON.stringify({
-        patient_id: patientData.patient_id,
-        name: `${patientData.first_name} ${patientData.last_name}`,
-        dob: patientData.date_of_birth
-      });
-      
-      const qrUrl = await QRCode.toDataURL(qrData);
-      setQrCodeUrl(qrUrl);
-      
-    } catch (error) {
-      console.error('Failed to load patient data:', error);
       setError('Failed to load patient data. Please try again.');
     } finally {
       setLoading(false);
