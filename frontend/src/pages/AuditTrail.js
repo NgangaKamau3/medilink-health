@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { auditAPI } from '../services/api';
 
-const AuditTrail = ({ user }) => {
+const AuditTrail = () => {
   const { t } = useTranslation();
   const [searchParams] = useSearchParams();
   const [auditLogs, setAuditLogs] = useState([]);

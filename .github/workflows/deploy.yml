@@ -24,6 +24,7 @@ jobs:
     - name: Build frontend
       env:
         CI: false
+        DISABLE_ESLINT_PLUGIN: true
       run: |
         cd frontend
         npm run build

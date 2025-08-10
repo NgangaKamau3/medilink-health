@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { patientsAPI } from '../services/api';
 import QRCode from 'qrcode';
 
-const PatientDashboard = ({ user }) => {
+const PatientDashboard = () => {
   const { patientId } = useParams();
   const { t } = useTranslation();
   const [patient, setPatient] = useState(null);
