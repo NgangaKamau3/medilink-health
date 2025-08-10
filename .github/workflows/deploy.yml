@@ -19,6 +19,8 @@ jobs:
     - name: Install frontend dependencies
       run: |
         cd frontend
+        rm -rf node_modules
+        npm cache clean --force
         npm install --legacy-peer-deps
         
     - name: Build frontend
@@ -27,6 +29,7 @@ jobs:
         DISABLE_ESLINT_PLUGIN: true
       run: |
         cd frontend
+        rm -rf build
         npm run build
         
     - name: Deploy to DigitalOcean
