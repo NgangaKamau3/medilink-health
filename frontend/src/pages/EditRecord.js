@@ -13,7 +13,7 @@ const EditRecord = ({ user }) => {
 
   useEffect(() => {
     loadPatient();
-  }, [patientId]);
+  }, [patientId, loadPatient]);
 
   const loadPatient = async () => {
     try {

@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { 
   savePatientOffline, 
-  saveEncounterOffline, 
-  saveAuditLogOffline,
+  saveEncounterOffline,
   searchPatientsOffline,
   getPatientOffline,
   getPatientEncountersOffline

@@ -18,7 +18,7 @@ const AuditTrail = ({ user }) => {
 
   useEffect(() => {
     loadAuditLogs();
-  }, []);
+  }, [loadAuditLogs]);
 
   const loadAuditLogs = async () => {
     setLoading(true);

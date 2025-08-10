@@ -16,7 +16,7 @@ const PatientDashboard = ({ user }) => {
 
   useEffect(() => {
     loadPatientData();
-  }, [patientId]);
+  }, [patientId, loadPatientData]);
 
   const loadPatientData = async () => {
     try {
