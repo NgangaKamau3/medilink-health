@@ -1,7 +1,7 @@
 name: medilink-health
 services:
 - name: backend
-  source_dir: /backend
+  source_dir: backend
   github:
     repo: NgangaKamau3/medilink-health
     branch: main
@@ -30,7 +30,7 @@ services:
     value: ${ALLOWED_ORIGINS}
 
 - name: frontend
-  source_dir: /frontend
+  source_dir: frontend
   github:
     repo: NgangaKamau3/medilink-health
     branch: main
